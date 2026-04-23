@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: ev-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ev_monitor
+    username: evuser
+    password: evpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+    consumer:
+      group-id: ev-processing-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.evmonitor.kafka"
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: ASC
+  api-docs:
+    path: /api-docs
+
+ocm:
+  api:
+    key: 2076a0bf-60ac-481d-aa2b-8fa04d7e27f0
+    url: https://api.openchargemap.io/v3/poi
+    latitude: 51.5074 #london
+    longitude: -0.1278
+    radius-km: 50
+    max-results: 500
+
+tomtom:
+  api:
+    key: g9CkWOrJSEqrxs7EkrJL0IjAvtr32XYD
+    url: https://api.tomtom.com/search/2/chargingAvailability.json
+    poll-interval-ms: 180000 # 3 minutes
+
+mvc:
+  cors:
+    allowed-origins: "http://localhost:4200"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"
