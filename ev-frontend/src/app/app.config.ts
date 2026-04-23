@@ -1,0 +1,14 @@
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideRouter }               from '@angular/router';
+import { provideHttpClient }           from '@angular/common/http';
+import { GoogleMapsModule }            from '@angular/google-maps';
+import { routes }                      from './app.routes';
+import { environment }                 from '../environments/environment';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    importProvidersFrom(GoogleMapsModule)
+  ]
+};

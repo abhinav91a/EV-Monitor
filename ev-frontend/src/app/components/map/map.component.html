@@ -1,0 +1,66 @@
+
+<div class="app-container">
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span class="bolt">⚡</span> EV Infrastructure Monitor
+    </div>
+    <div class="navbar-stats">
+      <span class="stat available">
+        🟢 {{ getStationsByStatus('AVAILABLE').length }} Available
+      </span>
+      <span class="stat occupied">
+        🟡 {{ getStationsByStatus('OCCUPIED').length }} Occupied
+      </span>
+      <span class="stat faulty">
+        🔴 {{ getStationsByStatus('FAULTY').length }} Faulty
+      </span>
+    </div>
+    <div class="navbar-right">
+      <app-search-bar />
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Loading State -->
+    @if (stationService.loading()) {
+      <div class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading London charging stations...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (stationService.error()) {
+      <div class="error-banner">
+        ⚠️ {{ stationService.error() }}
+      </div>
+    }
+
+    <!-- Google Map -->
+   <google-map
+    [center]="center"
+    [zoom]="zoom"
+    [options]="mapOptions"
+    width="100%"
+    height="100%">
+
+    @for (station of stationService.stations(); track station.ocmUuid) {
+      <map-marker
+        [position]="{ lat: station.latitude, lng: station.longitude }"
+        [options]="getMarkerOptions(station)"
+        (mapClick)="onMarkerClick(station)" />
+    }
+
+  </google-map>
+
+    <!-- Station Detail Panel (slides in when marker clicked) -->
+    @if (stationService.selected()) {
+      <app-station-detail />
+    }
+
+  </div>
+</div>

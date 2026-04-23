@@ -1,0 +1,19 @@
+.search-bar {
+  display: flex;
+  gap: 8px;
+
+  select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #A8D8DF;
+    background: #0D2B3E;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+
+    &:hover { border-color: #A8D8DF; background: #1B3D52; }
+
+    option { background: #0D2B3E; }
+  }
+}

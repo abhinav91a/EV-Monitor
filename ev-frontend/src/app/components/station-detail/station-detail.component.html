@@ -1,0 +1,39 @@
+@let station = stationService.selected();
+
+@if (station) {
+<div class="detail-panel">
+
+  <button class="close-btn" (click)="close()">✕</button>
+
+  <div class="status-badge" [class]="getStatusClass(station.currentStatus)">
+    {{ station.currentStatus }}
+  </div>
+
+  <h2>{{ station.operatorName ?? 'Unknown Operator' }}</h2>
+  <p class="postcode">📍 {{ station.postcode }}, {{ station.londonBorough }}</p>
+
+  <div class="connectors-bar">
+    <span class="available-count">
+      {{ station.availableConnectors }}
+    </span>
+    <span class="separator">/</span>
+    <span class="total-count">
+      {{ station.totalConnectors }}
+    </span>
+    <span class="label">connectors available</span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Last Updated</span>
+    <span class="info-value">
+      {{ station.lastUpdated | date:'HH:mm, d MMM' }}
+    </span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Station ID</span>
+    <span class="info-value mono">{{ station.ocmUuid }}</span>
+  </div>
+
+</div>
+}

@@ -1,0 +1,17 @@
+<div class="search-bar">
+
+  <select [(ngModel)]="selectedBorough" (change)="onBoroughChange()">
+    <option value="">All Boroughs</option>
+    @for (borough of boroughs; track borough) {
+      <option [value]="borough">{{ borough }}</option>
+    }
+  </select>
+
+  <select [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+    <option value="">All Statuses</option>
+    @for (status of statuses; track status) {
+      <option [value]="status">{{ status }}</option>
+    }
+  </select>
+
+</div>
